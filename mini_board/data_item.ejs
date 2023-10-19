@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <title>ミニメッセージボード</title>
+</head>
+<body>
+    <!-- //テキストの値が空ではないかチェックしている -->
+    <% if(val != '') {%>
+        <% let obj = JSON.parse(val); %>
+        <tr>
+            <th><%= obj.id %></th>
+            <td><%= obj.msg %></td>
+        </tr>
+    <% } %>
+</body>
+</html>
