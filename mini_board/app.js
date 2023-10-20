@@ -74,3 +74,46 @@ function response_index(request, response) {
         write_index(request, response);
     }
 }
+
+//indexページ作成
+function write_index(request, response) {
+    let msg = '何かメッセージを書いてください。';
+    let content = ejs.render(index_page, {
+        title: 'index',
+        content: msg,
+        data: message_data,
+        filename: 'data_item',
+    });
+    response.writeHead(200, { 'Content-Type': 'text/html' });
+    response.write(content);
+    response.end();
+}
+
+//テキストファイルをロード
+function readFromFile(fname) {
+    fs.readFile(fname, 'utf8', (err, data) => {
+        message_data = data.split('\n');
+    });
+}
+
+//データを更新
+function addToData(id, msg, fname, request) {
+    let obj = { 'id': id, 'msg': msg };
+    //stringifyオブジェクトをテキストに変換する
+    let obj_str = JSON.stringify(obj);
+    console.log('add data:' + obj_str);
+    //unshift  配列の最初に値を追加する「最後に追加したのが最初に追加される」
+    message_data.unshift(obj_str);
+    if (message_data.length > max_num) {
+        message_data.pop();
+    }
+    saveToFile(fname);
+}
+
+//データを保存
+function saveToFile(fname) {
+    let data_str = message_data.join('\n');
+    fs.writeFile(fname, data_str, (err) => {
+        if (err) { throw err; }
+    });
+}
